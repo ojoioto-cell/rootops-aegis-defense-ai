@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aegis-linux-defense-agent"
+version = "0.3.1"
+description = "Live Battle Evidence based autonomous defense AI agent for Linux and drone network environments"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "RootOps" }
+]
+keywords = ["defense-ai", "linux-security", "drone-security", "mavlink", "nftables", "cybersecurity"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Security",
+  "Topic :: System :: Monitoring"
+]
+dependencies = [
+  "PyYAML>=6.0.1,<7",
+  "fastapi>=0.111.0,<0.116",
+  "starlette>=0.37.2,<0.47",
+  "uvicorn>=0.30.0,<0.36",
+  "pydantic>=2.7.0,<3",
+  "httpx>=0.27.0,<0.29"
+]
+
+[project.scripts]
+aegis-agent = "aegis_agent.cli:main"
+aegis-central = "aegis_central.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["aegis_agent*", "aegis_central*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

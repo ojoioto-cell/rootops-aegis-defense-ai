@@ -1,0 +1,75 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Runtime state and databases
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+data/*.jsonl
+data/state/*.json
+*.db
+*.sqlite
+*.sqlite3
+
+# Aegis generated evidence/proof outputs
+proof_*/
+ai_duel_demo_*/
+final_evidence_*/
+championship_*/
+/var_lib_aegis_export/
+*.tar.gz
+
+# Logs
+*.log
+logs/
+*.pid
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+secrets/*
+!secrets/README.md
+!secrets/.gitignore
+openai_api_key
+*api_key*
+*token*
+*.pem
+*.key
+*.crt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local scratch
+/tmp/
+.cache/
+
+# Reports generated outside docs
+*.docx
+*.pdf
+!docs/**/*.pdf
