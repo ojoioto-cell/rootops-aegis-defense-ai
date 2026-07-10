@@ -1,0 +1,105 @@
+Metadata-Version: 2.4
+Name: aegis-linux-defense-agent
+Version: 0.3.1
+Summary: Live Battle Evidence based autonomous defense AI agent for Linux and drone network environments
+Author: RootOps
+License: Apache-2.0
+Keywords: defense-ai,linux-security,drone-security,mavlink,nftables,cybersecurity
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Information Technology
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Security
+Classifier: Topic :: System :: Monitoring
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: PyYAML<7,>=6.0.1
+Requires-Dist: fastapi<0.116,>=0.111.0
+Requires-Dist: starlette<0.47,>=0.37.2
+Requires-Dist: uvicorn<0.36,>=0.30.0
+Requires-Dist: pydantic<3,>=2.7.0
+Requires-Dist: httpx<0.29,>=0.27.0
+
+# Aegis Linux Defense Agent v0.3.1 Live Battle Evidence Edition
+
+Aegis v0.3.1 includes v0.3.0 and recenters Championship Mode on real Live Battle Evidence instead of synthetic AI Duel benchmarking.
+
+## What changed in v0.3.1
+
+- Runtime state files are no longer packaged: `data/*.jsonl` and `data/state/*.json` are excluded.
+- The installer creates a fresh runtime state under `/var/lib/aegis` by default.
+- Championship Dashboard UI now shows AI MODE, enforcement success rate, policy promotion stage, blocked targets and fallback count.
+- Proof Report 2.0 separates **Synthetic AI Duel Proof** from **Real Enforcement Proof**.
+- GPT/Ollama/rule_based provider usage and fallback status are explicit in reports and API output.
+- Policy Promotion is more concrete: promoted candidates produce IOC candidates, TTL recommendations, shadow-policy patches and approval requests.
+- Active policy mutation remains approval-based and never bypasses Policy Gate.
+- `championship-status --summary` provides compact CLI output.
+- BrokenPipeError is handled so `championship-status | head` does not produce noisy tracebacks.
+
+## Install
+
+```bash
+unzip aegis_linux_defense_agent_v0_3_1.zip
+cd aegis_linux_defense_agent_v0_3_1
+sudo ./scripts/all_in_one_competition_install.sh
+```
+
+During installation, paste the OpenAI API key when prompted. If left blank, Aegis tries local Ollama/Llama and then rule_based fallback.
+
+## Championship check
+
+```bash
+sudo /opt/aegis-linux-defense-agent/scripts/aegis_championship_mode.sh
+```
+
+## Compact operational status
+
+```bash
+sudo /opt/aegis-linux-defense-agent/.venv/bin/python -m aegis_agent championship-status \
+  --config /etc/aegis/agent.yaml \
+  --summary
+```
+
+## Central Championship API
+
+```text
+GET /api/championship
+```
+
+The response includes AI mode status, fallback count, enforcement success rate, policy promotion stages, IOC candidates, shadow policies, approval-pending promotions and blocked/limited targets.
+
+## Core defense loop
+
+```text
+Observe → Evidence Chain → AI Reasoning → Policy Gate → Shadow/Promotion Tracking
+→ Enforcement → Verification → Rollback/TTL → Security Growth Memory → Proof Report
+```
+
+## Safety boundary
+
+Aegis is defensive-only. It does not generate exploits, send drone control commands, or let the LLM run shell commands. Policy promotion produces candidates and approval requests; active policy changes remain controlled.
+
+
+## v0.3.0 Final Competition Edition
+
+- Live Battle Evidence Engine: `aegis-agent live-battle-evidence --summary`
+- AI Reasoning Quality Guard: `aegis-agent ai-quality`
+- Self-Healing Check: `aegis-agent self-heal-check`
+- AI Duel Demo: optional rehearsal only, not a 본선 performance metric
+- Evidence Exporter: `aegis-agent export-evidence`
+- Central Live Battle Evidence Dashboard: `/api/battle` and UI section
+
+
+
+## v0.3.1 Live Battle Evidence Focus
+
+AI Duel Benchmark was removed from the core 본선 workflow. The primary operational evidence now comes from actual runtime incidents, actions, AI reasoning ledger entries, and nftables state. Synthetic AI Duel Demo remains available only for rehearsal/report screenshots when explicitly run.
+
+Primary commands:
+
+```bash
+sudo /opt/aegis-linux-defense-agent/.venv/bin/python -m aegis_agent live-battle-evidence --config /etc/aegis/agent.yaml --summary
+sudo /opt/aegis-linux-defense-agent/scripts/aegis_championship_mode.sh
+```

@@ -1,0 +1,3 @@
+[console_scripts]
+aegis-agent = aegis_agent.cli:main
+aegis-central = aegis_central.server:main

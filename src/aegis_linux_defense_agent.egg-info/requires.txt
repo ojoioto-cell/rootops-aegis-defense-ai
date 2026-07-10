@@ -1,0 +1,6 @@
+PyYAML<7,>=6.0.1
+fastapi<0.116,>=0.111.0
+starlette<0.47,>=0.37.2
+uvicorn<0.36,>=0.30.0
+pydantic<3,>=2.7.0
+httpx<0.29,>=0.27.0
