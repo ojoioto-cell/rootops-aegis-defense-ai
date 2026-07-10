@@ -1,0 +1,22 @@
+[Unit]
+Description=Aegis Central Monitoring Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/aegis-linux-defense-agent
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=/opt/aegis-linux-defense-agent/src:/opt/aegis-linux-defense-agent
+Environment=AEGIS_CENTRAL_HOST=0.0.0.0
+Environment=AEGIS_CENTRAL_PORT=8088
+Environment=AEGIS_CENTRAL_TOKEN=
+EnvironmentFile=-/etc/aegis/central.env
+ExecStart=/opt/aegis-linux-defense-agent/.venv/bin/python -m aegis_central.server --host ${AEGIS_CENTRAL_HOST} --port ${AEGIS_CENTRAL_PORT} --db /var/lib/aegis/central.db --token ${AEGIS_CENTRAL_TOKEN} --require-read-auth
+Restart=always
+RestartSec=5
+User=root
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

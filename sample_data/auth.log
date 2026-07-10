@@ -1,0 +1,7 @@
+Jul  4 13:20:01 web01 sshd[1001]: Failed password for root from 185.10.10.5 port 49122 ssh2
+Jul  4 13:20:02 web01 sshd[1002]: Failed password for root from 185.10.10.5 port 49123 ssh2
+Jul  4 13:20:03 web01 sshd[1003]: Failed password for invalid user admin from 185.10.10.5 port 49124 ssh2
+Jul  4 13:20:04 web01 sshd[1004]: Failed password for user01 from 185.10.10.5 port 49125 ssh2
+Jul  4 13:20:05 web01 sshd[1005]: Failed password for user01 from 185.10.10.5 port 49126 ssh2
+Jul  4 13:20:06 web01 sshd[1006]: Accepted password for user01 from 185.10.10.5 port 49127 ssh2
+Jul  4 13:20:10 web01 sudo:   user01 : TTY=pts/0 ; PWD=/home/user01 ; USER=root ; COMMAND=/bin/bash

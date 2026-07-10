@@ -1,0 +1,25 @@
+[Unit]
+Description=Aegis Linux Autonomous Defense Agent
+Documentation=file:/opt/aegis-linux-defense-agent/docs/OPERATIONS_RUNBOOK.md
+After=network-online.target nftables.service auditd.service aegis-central.service
+Wants=network-online.target nftables.service auditd.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/aegis-linux-defense-agent
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=/opt/aegis-linux-defense-agent/src:/opt/aegis-linux-defense-agent
+ExecStart=/opt/aegis-linux-defense-agent/.venv/bin/python -m aegis_agent daemon --config /etc/aegis/agent.yaml --policy /etc/aegis/policy.yaml --enable-enforcement --cleanup-expired
+Restart=always
+RestartSec=5
+User=root
+
+# Competition compatibility mode:
+# Avoid systemd namespace directives such as PrivateTmp, ProtectHome,
+# ProtectKernel*, ProtectControlGroups, and ReadWritePaths because some
+# VM/kernel/systemd combinations fail with status=226/NAMESPACE.
+# Local enforcement still uses Policy Gate + nftables/auditd controls.
+NoNewPrivileges=false
+
+[Install]
+WantedBy=multi-user.target

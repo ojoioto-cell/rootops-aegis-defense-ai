@@ -1,0 +1,111 @@
+{
+  "name": "default-linux-server-policy",
+  "version": "2026.07-beta",
+  "policy": {
+    "policy": {
+      "thresholds": {
+        "observe": 0,
+        "collect_more": 30,
+        "soft_response": 60,
+        "active_response": 75,
+        "critical_response": 90
+      },
+      "evidence": {
+        "min_events_for_response": 3,
+        "min_sources_for_active_response": 2,
+        "require_event_id_mapping": true,
+        "require_timeline_order": true
+      },
+      "safety": {
+        "require_ttl": true,
+        "require_rollback": true,
+        "protect_allowlist": true,
+        "dry_run_default": true
+      },
+      "allowlists": {
+        "ips": [
+          "127.0.0.1",
+          "::1"
+        ],
+        "cidrs": [
+          "10.0.0.0/8",
+          "172.16.0.0/12",
+          "192.168.0.0/16"
+        ],
+        "accounts": [
+          "root"
+        ],
+        "process_names": [
+          "systemd",
+          "sshd",
+          "nginx",
+          "apache2",
+          "httpd",
+          "mysqld",
+          "postgresql",
+          "dockerd",
+          "containerd"
+        ]
+      },
+      "actions": {
+        "block_ip_ttl": {
+          "enabled": true,
+          "auto_allowed": true,
+          "min_score": 60,
+          "risk": "medium",
+          "ttl_required": true,
+          "rollback_required": true
+        },
+        "rate_limit_ip": {
+          "enabled": true,
+          "auto_allowed": true,
+          "min_score": 60,
+          "risk": "low",
+          "ttl_required": true,
+          "rollback_required": true
+        },
+        "block_outbound_ip": {
+          "enabled": true,
+          "auto_allowed": true,
+          "min_score": 75,
+          "risk": "medium",
+          "ttl_required": true,
+          "rollback_required": true
+        },
+        "suspend_process": {
+          "enabled": false,
+          "auto_allowed": false,
+          "min_score": 95,
+          "risk": "high_guarded",
+          "ttl_required": false,
+          "rollback_required": true,
+          "require_auditd_pid_relation": true
+        },
+        "quarantine_file": {
+          "enabled": true,
+          "auto_allowed": true,
+          "min_score": 75,
+          "risk": "medium",
+          "ttl_required": false,
+          "rollback_required": true
+        },
+        "disable_persistence": {
+          "enabled": true,
+          "auto_allowed": true,
+          "min_score": 85,
+          "risk": "high",
+          "ttl_required": false,
+          "rollback_required": true
+        },
+        "restrict_account": {
+          "enabled": false,
+          "auto_allowed": false,
+          "min_score": 90,
+          "risk": "critical",
+          "ttl_required": false,
+          "rollback_required": true
+        }
+      }
+    }
+  }
+}

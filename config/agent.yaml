@@ -1,0 +1,145 @@
+agent:
+  id: linux-web-01
+  hostname: linux-web-01
+  mode: autonomous
+  max_iterations: 3
+  loop_interval_seconds: 10
+  audit_db: data/audit.db
+  state_dir: data/state
+ai:
+  provider: auto
+  model: gpt-5.5
+  require_evidence_ids: true
+  strict_json: true
+  fallback_to_rule_based: true
+  fail_on_insecure_secret_permissions: true
+  timeout_seconds: 15
+  provider_priority:
+  - gpt
+  - ollama
+  - rule_based
+  api_key_file: /etc/aegis/secrets/openai_api_key
+  api_key_env: OPENAI_API_KEY
+  gpt:
+    model: gpt-5.5
+    endpoint: https://api.openai.com/v1/chat/completions
+    api_key_file: /etc/aegis/secrets/openai_api_key
+    api_key_env: OPENAI_API_KEY
+    timeout_seconds: 15
+  ollama:
+    model: llama3.1
+    endpoint: http://127.0.0.1:11434/api/generate
+    timeout_seconds: 5
+  rule_based:
+    model: local-rule-engine
+central:
+  enabled: false
+  url: http://127.0.0.1:8088/api/ingest
+  token: change-me
+  timeout_seconds: 5
+  policy_sync:
+    enabled: false
+    save_to: data/central_policy.yaml
+telemetry:
+  auth_logs:
+  - sample_data/auth.log
+  web_logs:
+  - sample_data/access.log
+  - sample_data/error.log
+  app_logs: []
+  auditd_logs:
+  - sample_data/audit.log
+  process_snapshot: sample_data/processes.txt
+  network_snapshot: sample_data/network.txt
+  file_events: sample_data/file_events.log
+  persistence_events: sample_data/persistence.log
+  scan_paths:
+  - /tmp
+  - /dev/shm
+  time_window_minutes: 30
+  ignore_time_window_for_sample_data: true
+  realtime:
+    enabled: false
+    tail_first_run: full
+  fim:
+    enabled: false
+    paths:
+    - /tmp
+    - /dev/shm
+    state_dir: data/state
+    first_run_baseline: true
+    max_files: 10000
+enforcement:
+  dry_run: true
+  require_cli_enable_flag: true
+  require_root: true
+  prefer_backend: nftables
+  nft_family: inet
+  nft_table: aegis_guard
+  quarantine_dir: data/quarantine
+  persistence_backup_dir: data/persistence_backup
+  persistence_max_file_size: 1048576
+  persistence_allowed_paths:
+  - /etc/cron.d
+  - /etc/crontab
+  - /var/spool/cron
+  - /var/spool/cron/crontabs
+  - /etc/systemd/system
+  - /etc/rc.local
+  - /root/.ssh/authorized_keys
+  - /home
+  action_ttl_seconds_default: 3600
+  rate_limit:
+    tcp_syn_per_second: 20
+    burst: 40
+verifier:
+  service_health_command: ''
+  verify_delay_seconds: 1
+  health_checks: []
+rollback:
+  auto_on_health_failure: true
+attack_loop:
+  enabled: true
+  state_dir: data/state
+  window_seconds: 3600
+self_protection:
+  enabled: true
+  state_dir: data/state
+  baseline_on_first_run: true
+  paths:
+  - aegis_agent
+  - config
+  - VERSION
+  - deploy
+signature_patterns:
+  enabled: true
+  load_defaults: true
+  files:
+  - config/signatures.yaml
+  description: Signature matches are converted into Evidence events and still pass
+    Loop Controller, Policy Gate, TTL, Verifier, and Rollback.
+loop_process:
+  enabled: true
+  description: Records collect→signature→evidence→reason→plan→policy→enforce→verify→rollback→learn
+    phases per incident.
+vulnerability_guard:
+  enabled: true
+  aggregate_threshold: 3
+  aggregate_min_events: 3
+  block_ttl_seconds: 3600
+  critical_ttl_seconds: 7200
+reasoning_ledger:
+  enabled: true
+  path: data/ai_reasoning_ledger.jsonl
+  max_chain_events: 200
+  description: Append-only sanitized AI/Rule reasoning ledger for competition proof.
+proof_generator:
+  enabled: true
+  output_dir: data/proof
+policy_promotion:
+  enabled: true
+  state_dir: data/state
+  shadow_after_observations: 2
+  enforce_after_observations: 3
+  promote_after_successes: 3
+  description: Championship Mode candidate->shadow->enforce_verified->promoted tracker.

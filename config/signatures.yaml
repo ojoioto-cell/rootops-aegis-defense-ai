@@ -1,0 +1,112 @@
+signatures:
+- id: competition-ssh-bruteforce-log
+  name: SSH failed-password burst log marker
+  category: ssh_bruteforce
+  event_types:
+  - ssh_failed_login
+  - ssh_invalid_user
+  regex: (Failed password|Invalid user|authentication failure)
+  severity: high
+  score: 60
+  action: block_ip_ttl
+  target_from: src_ip
+  ttl_seconds: 3600
+- id: competition-web-rce
+  name: Web command injection / RCE payload
+  category: web_rce
+  event_types:
+  - http_request
+  - web_attack_pattern
+  regex: (;|%3b|\|\||\||%7c|`|\$\(|%24%28|/bin/(?:ba)?sh|(?:cmd|exec|shell|command|payload)=|(?:curl|wget)\s+(?:https?://|ftp://)|\bnc\s+-[A-Za-z]+)
+  severity: critical
+  score: 75
+  action: block_ip_ttl
+  target_from: src_ip
+  ttl_seconds: 7200
+- id: competition-web-sqli
+  name: SQL injection payload
+  category: sql_injection
+  event_types:
+  - http_request
+  - web_attack_pattern
+  regex: (union\s+select|or\s+1=1|sleep\s*\(|benchmark\s*\(|information_schema|extractvalue\s*\()
+  severity: high
+  score: 60
+  action: rate_limit_ip
+  target_from: src_ip
+  ttl_seconds: 1800
+- id: competition-vuln-log4shell-jndi
+  name: 'Known vulnerability exploit marker: Log4Shell/JNDI'
+  category: known_vulnerability_exploit
+  event_types:
+  - http_request
+  - web_attack_pattern
+  regex: (\$\{[^\n]{0,80}jndi:|%24%7b[^\n]{0,120}jndi%3a|jndi:(?:ldap|rmi|dns|iiop)://)
+  severity: critical
+  score: 85
+  action: block_ip_ttl
+  target_from: src_ip
+  ttl_seconds: 7200
+- id: competition-vuln-spring4shell-binding
+  name: 'Known vulnerability exploit marker: Spring4Shell-style binding'
+  category: known_vulnerability_exploit
+  event_types:
+  - http_request
+  - web_attack_pattern
+  regex: (class\.module\.class(?:Loader|loader)|class%2emodule%2eclass(?:loader|Loader)|spring\.cloud\.function\.routing-expression|spring%2ecloud%2efunction)
+  severity: critical
+  score: 80
+  action: block_ip_ttl
+  target_from: src_ip
+  ttl_seconds: 7200
+- id: competition-vuln-shellshock-cgi
+  name: 'Known vulnerability exploit marker: Shellshock CGI payload'
+  category: known_vulnerability_exploit
+  event_types:
+  - http_request
+  - web_attack_pattern
+  regex: (\(\)\s*\{\s*:;\s*\};|%28%29\s*%7b\s*%3a%3b\s*%7d)
+  severity: critical
+  score: 80
+  action: block_ip_ttl
+  target_from: src_ip
+  ttl_seconds: 7200
+- id: competition-vuln-struts-ognl
+  name: 'Known vulnerability exploit marker: Struts/OGNL expression'
+  category: known_vulnerability_exploit
+  event_types:
+  - http_request
+  - web_attack_pattern
+  regex: (%\{[^\n]{0,120}(?:#|@java|ognl|memberAccess|ServletActionContext)|redirect:(?:\$|%24)\{)
+  severity: critical
+  score: 80
+  action: block_ip_ttl
+  target_from: src_ip
+  ttl_seconds: 7200
+- id: competition-vuln-generic-exploit-surface
+  name: Generic exposed vulnerability endpoint/probe
+  category: generic_vulnerability_probe
+  event_types:
+  - http_request
+  - web_attack_pattern
+  regex: (/(?:cgi-bin|vendor/phpunit|phpunit|solr/admin|actuator/(?:env|heapdump|jolokia)|jolokia|boaform|HNAP1|GponForm|_ignition/execute-solution|api/jsonws|manager/html|\.env|\.git/config|xmlrpc\.php|wp-json|wp-admin|owa/auth|ecp/|autodiscover))
+  severity: high
+  score: 60
+  action: block_ip_ttl
+  target_from: src_ip
+  ttl_seconds: 3600
+- id: competition-drone-mavlink-command
+  name: Unauthorized MAVLink command / mission / parameter signature
+  category: drone_command
+  event_types:
+  - drone_unauthorized_gcs
+  - drone_command_attempt
+  - drone_mission_or_param_change_attempt
+  - drone_heartbeat_spoofing
+  regex: (COMMAND_LONG|COMMAND_INT|PARAM_SET|MISSION_WRITE_PARTIAL_LIST|MISSION_CLEAR_ALL|RC_CHANNELS_OVERRIDE|SET_MODE)
+  severity: critical
+  score: 70
+  action: block_ip_ttl
+  target_from: src_ip
+  ttl_seconds: 3600
+  defense_only: true

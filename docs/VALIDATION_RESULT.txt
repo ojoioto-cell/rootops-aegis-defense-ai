@@ -1,0 +1,16 @@
+Aegis Linux Defense Agent v0.2.13 validation summary
+
+- VERSION: 0.2.13
+- pyproject version: 0.2.13
+- central version: 0.2.13
+- Python compileall: PASS
+- pytest: PASS, 60 tests
+- shell script syntax: PASS
+- AI Duel Demo safe mode: PASS
+- AI Duel Demo execute mode: PASS, memory network backend plus demo-owned file/persistence actions
+- Proof report: PASS, compact proof_summary.json and full proof_evidence_full.json generated
+- file/persistence parser regression: PASS
+- invalid firewall target rejection: PASS
+- wildcard/listener network snapshot filtering: PASS
+- self-protection install baseline reset: implemented
+- actual nftables kernel add/delete: requires target VM post-install validation
